@@ -165,7 +165,7 @@ public class ColorPickerDialog extends Dialog
 			
 
 			//drawing the leds on the
-			for (int j = 0; j < 8; j++) {
+			for (int j = 0; j < 6; j++) {
 				
 				float[] hsv = new float[3];
 				
