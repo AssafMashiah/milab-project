@@ -26,4 +26,8 @@
        android:layout_alignRight="@id/cameraLayer"
        android:layout_alignParentBottom="true"
        android:layout_centerHorizontal="true" />
+    <ImageView 
+		android:id="@+id/circleView" 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
 </RelativeLayout>  
