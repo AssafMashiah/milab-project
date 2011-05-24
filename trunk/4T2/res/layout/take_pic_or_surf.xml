@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout 
+	android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF"
+    android:orientation="vertical">     
+                
+	    <ImageButton android:id="@+id/uploadLogo"
+	    android:src="@drawable/small_logo"
+     	android:background="@null"
+		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+	  <ImageButton android:src="@drawable/take_a_picture" android:background="@null" android:layout_height="wrap_content" android:id="@+id/btntakepicture" android:layout_width="wrap_content" android:layout_x="56dip" android:layout_y="76dip"></ImageButton>
+	  <ImageButton android:src="@drawable/surf_the_web" android:background="@null" android:layout_height="wrap_content" android:id="@+id/btnsurftheweb" android:layout_width="wrap_content" android:layout_x="60dip" android:layout_y="248dip"></ImageButton>
+	  <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/decoration" android:id="@+id/decoration" android:layout_x="196dip" android:layout_y="104dip"></ImageView> 
+	 
+
+</AbsoluteLayout>  
