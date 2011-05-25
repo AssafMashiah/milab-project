@@ -30,10 +30,10 @@ import android.widget.Toast;
 
 public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 {
-	private static final int CROP_X = 80;
-	private static final int CROP_Y = 70;
-	private static final int CROP_WIDTH = 200;
-	private static final int CROP_HEIGHT = 110;
+	private static final int CROP_X = 180;
+	private static final int CROP_Y = 200;
+	private static final int CROP_WIDTH = 380;
+	private static final int CROP_HEIGHT = 50;
 	public static final String BUNDLE_EXTRA_BITMAP = "Bitmap";
 
 	private Camera camera;
@@ -286,7 +286,7 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		Log.d(getClass().getSimpleName(), "Optimal size is "
 				+ optimalSize.width + "w " + optimalSize.height + "h");
 		p.setPreviewSize(optimalSize.width, optimalSize.height);
-
+		p.setExposureCompensation(p.getMinExposureCompensation());
 		// p.setPreviewSize(w, h);
 
 		camera.setParameters(p);
@@ -441,10 +441,12 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 			{
 				try
 				{
+					
 					int x = image[i][j];
 					int red = Color.red(x);
 					int green = Color.green(x);
 					int blue = Color.blue(x);
+
 					grayImage[i][j] = (red + green + blue) / 3;
 				}
 				catch (Exception e)
@@ -478,9 +480,10 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 
 		for (int i = 0; i < finalArray.length; i++)
 		{
+			System.out.println("led avarage" + finalArray[i]);
 			if (finalArray[i] > 0 && finalArray[i] <= 1)
 			{
-				finalArray[i] = 0;
+				finalArray[i] = 0;	
 			}
 
 			if (finalArray[i] > 1 && finalArray[i] <= 30)
@@ -494,6 +497,7 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 			}
 			result += finalArray[i] * Math.pow(3, i);
 		}
+		
 
 		System.out.println("The image result: " + result);
 		Log.d("ANDRO_CAMERA", "The image resault: " + result);

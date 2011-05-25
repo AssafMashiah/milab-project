@@ -21,16 +21,8 @@
 		   android:layout_y = "50px"
 	       android:background="@null"
 	       android:layout_alignParentBottom="true" />
+		<ImageButton android:id="@+id/btnTakePicture" android:background="@null" android:layout_width="wrap_content" android:src="@drawable/scan" android:layout_height="wrap_content" android:layout_x="428dip" android:layout_y="202dip"></ImageButton>
     </AbsoluteLayout>
-    <ImageButton android:id="@+id/btnTakePicture" 
-       android:layout_width="wrap_content" 
-       android:layout_height="wrap_content"
-       android:src="@drawable/scan"
-       android:background="@null"
-       android:text="Scan code"
-       android:layout_alignRight="@id/cameraLayer"
-       android:layout_alignParentBottom="true"
-       android:layout_centerHorizontal="true" />
     <LinearLayout
 		android:id="@+id/circleView" 
 		android:layout_width="wrap_content"
