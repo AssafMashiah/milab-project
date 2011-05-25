@@ -12,8 +12,8 @@ import android.widget.ImageView;
 public class CircleView extends View
 {
 	private static final float RADIUS = 15;
-	private static final float STARTING_CIRCLE_LINE_X = 45;
-	private static float STARTING_CIRCLE_LINE_Y = 100;
+	private static final float STARTING_CIRCLE_LINE_X = 135;
+	private static float STARTING_CIRCLE_LINE_Y = 150;
 	private Paint mPaint;
 
 	// Constructor
@@ -23,7 +23,7 @@ public class CircleView extends View
 
 		ImageView cameraLayerImg = (ImageView) ((Activity)c).findViewById(R.id.cameraLayer);
 //		cameraLayerImg.layout(l, t, r, b)
-		
+	
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setTextAlign(Paint.Align.CENTER);
 		mPaint.setTextSize(12);
@@ -37,8 +37,9 @@ public class CircleView extends View
 
 		for (int j = 0; j < 6; j++)
 		{
-			mPaint.setColor(Color.GRAY);
+			mPaint.setColor(Color.WHITE);
 			mPaint.setStyle(Paint.Style.STROKE);
+			mPaint.setStrokeWidth(1.5f);
 			canvas.drawCircle(STARTING_CIRCLE_LINE_X + (j * inc),
 					STARTING_CIRCLE_LINE_Y, RADIUS, mPaint);
 		}
