@@ -431,44 +431,37 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 
 	private void scanToNumber(int[][] image)
 	{
-		float areaWidth = image.length / 8;
+		float areaWidth = image.length / 6;
 
 		double[][] grayImage = new double[image.length][image[0].length];
 		// gray scale
 		for (int i = 0; i < grayImage.length; i++)
 		{
 			for (int j = 0; j < grayImage[0].length; j++)
-			{
-				try
-				{
-					
+			{	
 					int x = image[i][j];
-					int red = Color.red(x);
-					int green = Color.green(x);
-					int blue = Color.blue(x);
-
-					grayImage[i][j] = (red + green + blue) / 3;
-				}
-				catch (Exception e)
-				{
-					Toast.makeText(this, "i=" + i + "j=" + j, Toast.LENGTH_LONG).show();
-				}		
+					float red = Color.red(x);
+					float green = Color.green(x);
+					float blue = Color.blue(x);
+					double currentCalc =  (red + green + blue)/3;
+					grayImage[i][j] = (int) currentCalc;
+			
 			}
 		}
 
 		// Resulted numbers
-		double[] finalArray = new double[8];
-		int sizeDiv3 = grayImage[0].length / 3;
-
-		int blocker = sizeDiv3;
-		for (int ledNumber = 0; ledNumber < 8; ledNumber++)
+		double[] finalArray = new double[6];
+//
+		for (int ledNumber = 0; ledNumber < 6; ledNumber++)
 		{
 			int counter = 0;
 			for (int i = (int) (ledNumber * areaWidth); i < ledNumber
 					* areaWidth + areaWidth; i++)
 			{
-				for (int j = sizeDiv3; j < blocker * 2; j++)
+				
+				for (int j = 0; j < image[0].length; j++)
 				{
+					
 					finalArray[ledNumber] += grayImage[i][j];
 					counter++;
 				}
@@ -480,22 +473,22 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 
 		for (int i = 0; i < finalArray.length; i++)
 		{
-			System.out.println("led avarage" + finalArray[i]);
-			if (finalArray[i] > 0 && finalArray[i] <= 1)
+			System.out.println("led " + i + " avarage " + finalArray[i]);
+			if (finalArray[i] > 0 && finalArray[i] <= 16)
+
 			{
 				finalArray[i] = 0;	
 			}
 
-			if (finalArray[i] > 1 && finalArray[i] <= 30)
+			if (finalArray[i] > 16)
 			{
 				finalArray[i] = 1;
 			}
 
-			if (finalArray[i] > 30)
-			{
-				finalArray[i] = 2;
-			}
-			result += finalArray[i] * Math.pow(3, i);
+			
+			
+			result += finalArray[i] * Math.pow(2, finalArray.length - 1 - i);
+
 		}
 		
 
