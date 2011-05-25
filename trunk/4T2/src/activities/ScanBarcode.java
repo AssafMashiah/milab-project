@@ -1,7 +1,6 @@
 package activities;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import capture.image.R;
@@ -22,8 +21,11 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class ScanBarcode extends Activity implements SurfaceHolder.Callback
@@ -34,11 +36,8 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 	private static final int CROP_HEIGHT = 110;
 	public static final String BUNDLE_EXTRA_BITMAP = "Bitmap";
 
-	private Toast toast;
 	private Camera camera;
 	private boolean isPreviewRunning = false;
-	private SimpleDateFormat timeStampFormat = new SimpleDateFormat(
-			"yyyyMMddHHmmssSS");
 
 	private SurfaceView surfaceView;
 	private SurfaceHolder surfaceHolder;
@@ -50,11 +49,19 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		Log.e(getClass().getSimpleName(), "onCreate");
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
 
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		setContentView(R.layout.camera);
 
+		
 		surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
 		surfaceHolder = surfaceView.getHolder();
 
+		LinearLayout circlesView = (LinearLayout) findViewById(R.id.circleView);
+		circlesView.addView(new CircleView(this));
+		
 		surfaceHolder.addCallback(this);
 		surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
@@ -442,7 +449,7 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 				}
 				catch (Exception e)
 				{
-					Toast toast = Toast.makeText(this, "i=" + i + "j=" + j, Toast.LENGTH_LONG);
+					Toast.makeText(this, "i=" + i + "j=" + j, Toast.LENGTH_LONG).show();
 				}		
 			}
 		}
@@ -488,8 +495,8 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 			result += finalArray[i] * Math.pow(3, i);
 		}
 
-//		System.out.println("The image result: " + result);
+		System.out.println("The image result: " + result);
 		Log.d("ANDRO_CAMERA", "The image resault: " + result);
-		toast = Toast.makeText(this, "The image resault: " + result, Toast.LENGTH_LONG);
+		Toast.makeText(this, "The image resault: " + result, Toast.LENGTH_LONG).show();
 	}
 }
