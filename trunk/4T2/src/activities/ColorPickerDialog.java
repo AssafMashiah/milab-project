@@ -13,8 +13,8 @@ import android.view.View;
 
 public class ColorPickerDialog extends Dialog
 {
-	public static int ledStartX = 30;
-	public static int ledStartY = 20;
+	public static int ledStartX = 60;
+	public static int ledStartY = 50;
 	public static int hueBarYstart = 140;
 	public static int hueBarYend = 170;
 	static int delta = 30;
