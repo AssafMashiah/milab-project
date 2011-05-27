@@ -1,5 +1,6 @@
 package activities;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -8,12 +9,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
 import android.util.Log;
 import android.view.MenuItem;
@@ -34,7 +37,9 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 	private static final int CROP_Y = 200;
 	private static final int CROP_WIDTH = 380;
 	private static final int CROP_HEIGHT = 50;
-	public static final String BUNDLE_EXTRA_BITMAP = "Bitmap";
+	public static String CALCULATED_NUMBER = "ImgProcessing";
+	private int calculated_number;
+//	public static final String BUNDLE_EXTRA_BITMAP = "Bitmap";
 
 	private Camera camera;
 	private boolean isPreviewRunning = false;
@@ -161,30 +166,55 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 
 					Size previewSize = camera.getParameters().getPreviewSize();
 					int[] rgb = new int[previewSize.width * previewSize.height];
-					decodeYUV420SP(rgb, data, previewSize.width,
-							previewSize.height);
+					decodeYUV420SP(rgb, data, previewSize.width, previewSize.height);
 
 					int[] croppedImage = cropRgbImage(rgb, previewSize.width, previewSize.height);
 
-					Bitmap bitmap = Bitmap.createBitmap(croppedImage, CROP_WIDTH, CROP_HEIGHT, Config.RGB_565);
+//					Bitmap bitmap = Bitmap.createBitmap(croppedImage, CROP_WIDTH, CROP_HEIGHT, Config.RGB_565);
 					
 					// Bitmap bitmap = Bitmap.createBitmap(rgb,
 					// previewSize.width, previewSize.height,
 					// Bitmap.Config.RGB_565);
 
-					getIntent().putExtra(BUNDLE_EXTRA_BITMAP, bitmap);
 
 					// ---- Start Image Processing Here ---- //
 
 					// // This saves the entire RGB image data to a JPEG file
-					// FileOutputStream baos = new
-					// FileOutputStream("/mnt/sdcard/code.jpg");
-					// Bitmap bitmap = Bitmap.createBitmap(rgb,
-					// previewSize.width, previewSize.height,
-					// Bitmap.Config.RGB_565);
-					// bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+//					 String filepath = Environment.getExternalStorageDirectory() + PictureCaptureActivity.FILE_DIR 
+//					 															 + PictureCaptureActivity.FILE_NAME;
+//					 FileOutputStream baos = new FileOutputStream("/mnt/sdcard/code.jpg");
+//					 FileOutputStream baos = new FileOutputStream(PictureCaptureActivity.FILE_PATH);
+//					 Bitmap bitmap = BitmapFactory.decodeFile(PictureCaptureActivity.FILE_PATH);
+//					 Bitmap bitmap = Bitmap.createBitmap(rgb, previewSize.width, previewSize.height, Bitmap.Config.RGB_565);
+//					 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+					
+					int photoNum;
+					
+					switch (calculated_number)
+					{
+						case 1:
+							photoNum = 1;
+							break;
+						case 2:
+							photoNum = 2;
+							break;
+						case 3:
+							photoNum = 3;
+							break;
+						case 4:
+							photoNum = 4;
+							break;
+						case 5:
+							photoNum = 5;
+							break;
+						default:
+							photoNum = calculated_number;
+							break;
+					}
+					
+					 getIntent().putExtra(CALCULATED_NUMBER, photoNum);
 
-					// // This saves part of the image to file using a rectangle
+					 // // This saves part of the image to file using a rectangle
 					// YuvImage yuvimage=new YuvImage(data, ImageFormat.NV21,
 					// previewSize.width, previewSize.height, null);
 					// ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -414,7 +444,7 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		}
 
 		// Get the number from the picture
-		scanToNumber(image);
+		calculated_number = scanToNumber(image);
 
 		int[] resImage = new int[CROP_WIDTH * CROP_HEIGHT];
 
@@ -429,39 +459,46 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		return resImage;
 	}
 
-	private void scanToNumber(int[][] image)
+	private int scanToNumber(int[][] image)
 	{
-		float areaWidth = image.length / 6;
+		float areaWidth = image.length / 8;
 
 		double[][] grayImage = new double[image.length][image[0].length];
 		// gray scale
 		for (int i = 0; i < grayImage.length; i++)
 		{
 			for (int j = 0; j < grayImage[0].length; j++)
-			{	
+			{
+				try
+				{
+					
 					int x = image[i][j];
-					float red = Color.red(x);
-					float green = Color.green(x);
-					float blue = Color.blue(x);
-					double currentCalc =  (red + green + blue)/3;
-					grayImage[i][j] = (int) currentCalc;
-			
+					int red = Color.red(x);
+					int green = Color.green(x);
+					int blue = Color.blue(x);
+
+					grayImage[i][j] = (red + green + blue) / 3;
+				}
+				catch (Exception e)
+				{
+					Toast.makeText(this, "i=" + i + "j=" + j, Toast.LENGTH_LONG).show();
+				}		
 			}
 		}
 
 		// Resulted numbers
-		double[] finalArray = new double[6];
-//
-		for (int ledNumber = 0; ledNumber < 6; ledNumber++)
+		double[] finalArray = new double[8];
+		int sizeDiv3 = grayImage[0].length / 3;
+
+		int blocker = sizeDiv3;
+		for (int ledNumber = 0; ledNumber < 8; ledNumber++)
 		{
 			int counter = 0;
 			for (int i = (int) (ledNumber * areaWidth); i < ledNumber
 					* areaWidth + areaWidth; i++)
 			{
-				
-				for (int j = 0; j < image[0].length; j++)
+				for (int j = sizeDiv3; j < blocker * 2; j++)
 				{
-					
 					finalArray[ledNumber] += grayImage[i][j];
 					counter++;
 				}
@@ -473,27 +510,28 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 
 		for (int i = 0; i < finalArray.length; i++)
 		{
-			System.out.println("led " + i + " avarage " + finalArray[i]);
-			if (finalArray[i] > 0 && finalArray[i] <= 16)
-
+			System.out.println("led avarage" + finalArray[i]);
+			if (finalArray[i] > 0 && finalArray[i] <= 1)
 			{
 				finalArray[i] = 0;	
 			}
 
-			if (finalArray[i] > 16)
+			if (finalArray[i] > 1 && finalArray[i] <= 30)
 			{
 				finalArray[i] = 1;
 			}
 
-			
-			
-			result += finalArray[i] * Math.pow(2, finalArray.length - 1 - i);
-
+			if (finalArray[i] > 30)
+			{
+				finalArray[i] = 2;
+			}
+			result += finalArray[i] * Math.pow(3, i);
 		}
 		
 
 		System.out.println("The image result: " + result);
 		Log.d("ANDRO_CAMERA", "The image resault: " + result);
 		Toast.makeText(this, "The image resault: " + result, Toast.LENGTH_LONG).show();
+		return result;
 	}
 }
