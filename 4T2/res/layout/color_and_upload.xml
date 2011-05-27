@@ -15,17 +15,16 @@
      <ImageButton android:id="@+id/swipe"
 	    android:src="@drawable/swipe"
      	android:background="@null"
-     	android:paddingLeft="10px"
+     	android:paddingLeft="13px"
 		android:layout_width="wrap_content"
-        android:layout_height="30px"
-        android:layout_below="@+id/uploadLogo"/> 
+        android:layout_height="440px"/> 
         
      <LinearLayout android:id="@+id/colorDialogLayout" 
         android:layout_width="fill_parent"
         android:layout_height="220px"
         android:paddingLeft="20px"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/swipe"
+        android:layout_below="@+id/uploadLogo"
      	android:src="@drawable/logo"/>
 
 	 <ImageButton android:id="@+id/btnBack"
