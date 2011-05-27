@@ -15,6 +15,12 @@ import android.widget.ImageView;
 public class AfterScanActivity extends Activity
 {
 	public static final String BUNDLE_EXTRA_BITMAP = "Bitmap";
+
+	private static final int ASSAF_PHOTO_ID = 1;
+	private static final int KEREN_PHOTO_ID = 2;
+	private static final int ORR_PHOTO_ID = 3;
+	private static final int RONI_PHOTO_ID = 4;
+	private static final int SHACHR_PHOTO_ID = 5;
 	
 	private Bitmap m_Bitmap;
 	private int imgProcFileName = -1;
@@ -32,21 +38,40 @@ public class AfterScanActivity extends Activity
 		imgProcFileName = getIntent().getExtras().getInt(ScanBarcode.CALCULATED_NUMBER);
 		
 //		PictureCaptureActivity.getHashtable().put(PictureCaptureActivity.PHOTO_NUMBER, imgProcFileName);
-
-		m_Bitmap = BitmapFactory.decodeFile(PictureCaptureActivity.FILE_DIR + PictureCaptureActivity.PHOTO_NUMBER + ".jpg");
+		
+		int resourceId = R.drawable.logo;
+		
+		switch (imgProcFileName)
+		{
+			case ASSAF_PHOTO_ID:
+				resourceId = R.drawable.assaf;
+				break;
+			case KEREN_PHOTO_ID:
+				resourceId = R.drawable.keren;
+				break;
+			case ORR_PHOTO_ID:
+				resourceId = R.drawable.orr;
+				break;
+			case RONI_PHOTO_ID:
+				resourceId = R.drawable.roni;
+				break;
+			case SHACHR_PHOTO_ID:
+				resourceId = R.drawable.shachar;
+				break;
+			default:
+				m_Bitmap = BitmapFactory.decodeFile(PictureCaptureActivity.FILE_DIR + PictureCaptureActivity.PHOTO_NUMBER + ".jpg");
+				break;
+		}
+		
+		m_Bitmap = BitmapFactory.decodeResource(getResources(), resourceId);
+		
 		
 //		m_Bitmap = getIntent().getExtras().getParcelable(BUNDLE_EXTRA_BITMAP);
-		
-//		RelativeLayout afterScanLayout = (RelativeLayout)findViewById(R.id.afterScanLayout);
-//		afterScanLayout.setBackgroundResource(R.drawable.cameralayer);
 		
 		// Take a picture with the camera, save it to internal memory
 		ImageView imageView = (ImageView) this.findViewById(R.id.imageView);
 		imageView.setImageBitmap(this.m_Bitmap);
 //		imageView.setBackgroundResource(R.drawable.medstock);
-		
-//		LayoutParams layoutParams = new LayoutParams(Gravity.CENTER_VERTICAL, Gravity.CENTER_HORIZONTAL);
-//		imageView.setLayoutParams(layoutParams);
 		
 		ImageButton btnUpload = (ImageButton) findViewById(R.id.btnUpload1);
 		btnUpload.setOnClickListener(new View.OnClickListener()
