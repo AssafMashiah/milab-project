@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout 
-	android:id="@+id/afterScanLayout"
 	android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="#FFFFFF">
 
-     <LinearLayout android:id="@+id/mockupLayout" 
+     <ImageButton android:id="@+id/LogoImg" 
         android:layout_width="fill_parent"
-        android:layout_height="350px"
-        android:paddingLeft="20px"
+        android:layout_height="375px"
         android:visibility="invisible"
-        android:layout_centerHorizontal="true"/>
-
-     <ImageView android:id="@+id/imageView" 
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
+	 	android:background="@null"
+     	android:src="@drawable/logo"/>
+     
+ <ImageView android:id="@+id/imageView" 
+	     android:layout_width="fill_parent"
+	     android:layout_height="fill_parent"
 	     android:layout_alignParentTop="true"
 	     android:layout_centerVertical="true"
 	     android:layout_centerHorizontal="true"/>
-		 
-	     
- 	  <ImageButton android:id="@+id/btnBack1"
-        android:src="@drawable/btn_back"
-     	android:background="@null"
-        android:layout_width="175px"
+
+     	<AbsoluteLayout android:id="@+id/buttonslayout" 
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mockupLayout"
-        android:layout_alignRight="@+id/mockupLayout"/> 
-	  
-	  <ImageButton android:id="@+id/btnUpload1"
-	    android:src="@drawable/btn_upload_link"
-     	android:background="@null"
-		android:layout_width="175px"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mockupLayout"
-        android:layout_alignLeft="@+id/mockupLayout"/>    
+        android:orientation="horizontal">
         
+		 	  <ImageButton android:id="@+id/btnUpload1"
+		        android:src="@drawable/btn_upload_link"
+		     	android:background="@null"
+		        android:layout_width="175px"
+		        android:layout_height="wrap_content"
+				android:layout_x="0px"
+				android:layout_y="375px"/> 
+		        
+		       <ImageButton android:id="@+id/btnBack1"
+			    android:src="@drawable/btn_back"
+		     	android:background="@null"
+				android:layout_width="175px"
+		        android:layout_height="wrap_content"
+		        android:layout_x="150px"
+				android:layout_y="375px"/>    
+		 
+        </AbsoluteLayout>
 </RelativeLayout>  
