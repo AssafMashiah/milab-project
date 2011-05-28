@@ -33,7 +33,6 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 	private static final int CROP_HEIGHT = 50;
 	public static String CALCULATED_NUMBER = "ImgProcessing";
 	private int calculated_number;
-//	public static final String BUNDLE_EXTRA_BITMAP = "Bitmap";
 
 	private Camera camera;
 	private boolean isPreviewRunning = false;
@@ -53,7 +52,6 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.camera);
-
 		
 		surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
 		surfaceHolder = surfaceView.getHolder();
@@ -370,7 +368,6 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		calculated_number = android.Utils.Utils.scanToNumber(image);
 		System.out.println("end of image pro");
 		System.out.println(calculated_number);
-		Toast.makeText(this, calculated_number, Toast.LENGTH_LONG).show();
 		
 		int[] resImage = new int[CROP_WIDTH * CROP_HEIGHT];
 
@@ -381,7 +378,9 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 				resImage[j * CROP_WIDTH + i] = image[i][j];
 			}
 		}
+		Toast.makeText(this, calculated_number + "", Toast.LENGTH_LONG).show();
 
+		
 		return resImage;
 	}
 

@@ -28,12 +28,9 @@ public class Utils {
 
 		int[] brightPixels = new int[6];
 		// Resulted numbers
-		double[] finalArray = new double[6];
-
 		for (int ledNumber = 0; ledNumber < 6; ledNumber++)
 		{
 			brightPixels[ledNumber] = 0;
-			int counter = 0;
 			for (int i = (int) (ledNumber * areaWidth); i < ledNumber
 					* areaWidth + areaWidth; i++)
 			{
@@ -44,30 +41,27 @@ public class Utils {
 						brightPixels[ledNumber]++;
 					}
 					
-					finalArray[ledNumber] += grayImage[i][j];
-					counter++;
 				}
 			}
-			finalArray[ledNumber] = finalArray[ledNumber] / counter;
 		}
 
 		int result = 0;
 
-		for (int i = 0; i < finalArray.length; i++)
+		for (int i = 0; i < brightPixels.length; i++)
 		{
 			System.out.println("led " + i + " number of bright " + brightPixels[i]);
 			if (brightPixels[i] < 10)	
 			{
-				finalArray[i] = 0;	
+				brightPixels[i] = 0;	
 			}
 			if (brightPixels[i] > 10)
 			{
-				finalArray[i] = 1;
+				brightPixels[i] = 1;
 			}
 
 			
 			
-			result += finalArray[i] * Math.pow(2, finalArray.length - 1 - i);
+			result += brightPixels[i] * Math.pow(2, brightPixels.length - 1 - i);
 
 		}
 		

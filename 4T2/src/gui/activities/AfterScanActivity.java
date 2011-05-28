@@ -16,7 +16,7 @@ public class AfterScanActivity extends Activity
 {
 	public static final String BUNDLE_EXTRA_BITMAP = "Bitmap";
 
-	private static final int ASSAF_PHOTO_ID = 1;
+	private static final int ASSAF_PHOTO_ID = 51;
 	private static final int KEREN_PHOTO_ID = 2;
 	private static final int ORR_PHOTO_ID = 3;
 	private static final int RONI_PHOTO_ID = 4;
@@ -66,13 +66,9 @@ public class AfterScanActivity extends Activity
 		
 		m_Bitmap = BitmapFactory.decodeResource(getResources(), resourceId);
 		
-		
-//		m_Bitmap = getIntent().getExtras().getParcelable(BUNDLE_EXTRA_BITMAP);
-		
 		// Take a picture with the camera, save it to internal memory
 		ImageView imageView = (ImageView) this.findViewById(R.id.imageView);
 		imageView.setImageBitmap(this.m_Bitmap);
-//		imageView.setBackgroundResource(R.drawable.medstock);
 		
 		ImageButton btnUpload = (ImageButton) findViewById(R.id.btnUpload1);
 		btnUpload.setOnClickListener(new View.OnClickListener()
