@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+	android:id="@+id/mainview"
+	android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF">
+    
+    <ImageButton android:id="@+id/uploadLogo"
+	    android:src="@drawable/small_logo"
+     	android:background="@null"
+		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>    
+        
+     <ImageButton android:id="@+id/swipe"
+	    android:src="@drawable/swipe"
+     	android:background="@null"
+     	android:paddingLeft="13px"
+		android:layout_width="wrap_content"
+        android:layout_height="440px"/> 
+        
+     <LinearLayout android:id="@+id/colorDialogLayout" 
+        android:layout_width="fill_parent"
+        android:layout_height="220px"
+        android:paddingLeft="20px"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/uploadLogo"
+     	android:src="@drawable/logo"/>
+
+	 <ImageButton android:id="@+id/btnBack"
+        android:src="@drawable/btn_back"
+     	android:background="@null"
+        android:layout_width="175px"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/colorDialogLayout"
+        android:layout_alignRight="@+id/colorDialogLayout"/> 
+	 
+	 <ImageButton android:id="@+id/btnUpload"
+	    android:src="@drawable/btn_upload_link"
+     	android:background="@null"
+		android:layout_width="175px"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/colorDialogLayout"
+        android:layout_alignLeft="@+id/colorDialogLayout"/>    
+ 	
+</RelativeLayout>  

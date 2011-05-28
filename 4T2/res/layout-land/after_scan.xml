@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+	android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF">
+
+     <ImageButton android:id="@+id/LogoImg" 
+        android:layout_width="fill_parent"
+        android:layout_height="375px"
+        android:visibility="invisible"
+	 	android:background="@null"
+     	android:src="@drawable/logo"/>
+     
+ <ImageView android:id="@+id/imageView" 
+	     android:layout_width="fill_parent"
+	     android:layout_height="fill_parent"
+	     android:layout_alignParentTop="true"
+	     android:layout_centerVertical="true"
+	     android:layout_centerHorizontal="true"/>
+
+     	<AbsoluteLayout android:id="@+id/buttonslayout" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+		 	  <ImageButton android:id="@+id/btnUpload1"
+		        android:src="@drawable/btn_upload_link"
+		     	android:background="@null"
+		        android:layout_width="175px"
+		        android:layout_height="wrap_content"
+				android:layout_x="100px"
+				android:layout_y="180px"/> 
+		        
+		       <ImageButton android:id="@+id/btnBack1"
+			    android:src="@drawable/btn_back"
+		     	android:background="@null"
+				android:layout_width="175px"
+		        android:layout_height="wrap_content"
+		        android:layout_x="250px"
+				android:layout_y="180px"/>    
+		 
+        </AbsoluteLayout>
+</RelativeLayout>  

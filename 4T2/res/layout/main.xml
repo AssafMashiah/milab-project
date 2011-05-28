@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+	android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF">
+                
+    <TextView
+        android:id="@+id/LblTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="OST"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
+
+     <ImageButton android:id="@+id/LogoImg" 
+        android:layout_width="fill_parent"
+        android:layout_height="300px"
+        android:layout_alignLeft="@+id/LblTitle"
+        android:layout_below="@+id/LblTitle"
+        android:layout_centerHorizontal="true"
+	 	android:background="@null"
+     	android:src="@drawable/logo"/>
+     
+	  <ImageButton android:id="@+id/btnScanCode"
+	    android:src="@drawable/btn_scan_link"
+     	android:background="@null"
+		android:layout_width="175px"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LogoImg"
+        android:layout_alignRight="@+id/LogoImg"/>    
+ 
+ 	  <ImageButton android:id="@+id/btnPicToCode"
+        android:src="@drawable/btn_create_link"
+     	android:background="@null"
+        android:layout_width="175px"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LogoImg"
+        android:layout_alignLeft="@+id/LogoImg"/> 
+	 
+</RelativeLayout>  
