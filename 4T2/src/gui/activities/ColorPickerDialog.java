@@ -42,10 +42,8 @@ public class ColorPickerDialog extends Dialog
 	{
 		private Paint mPaint;
 		private float mCurrentHue = 0;
-		private int mCurrentColor, mDefaultColor;
 		private final int[] mHueBarColors = new int[258];
 		private int[] mMainColors = new int[65536];
-		private OnColorChangedListener mListener;
 
 		//Constructor
 		
@@ -53,15 +51,12 @@ public class ColorPickerDialog extends Dialog
 				int defaultColor)
 		{
 			super(c);
-			mListener = l;
-			mDefaultColor = defaultColor;
 
 			// Get the current hue from the current color and update the main
 			// color field
 			float[] hsv = new float[3];
 			Color.colorToHSV(color, hsv);
 			mCurrentHue = hsv[0];
-			mCurrentColor = color;
 
 			// Initialize the colors of the hue slider bar
 			int index = 0;
@@ -200,8 +195,6 @@ public class ColorPickerDialog extends Dialog
 			{
 				// Update the main field colors
 				mCurrentHue = (255 - x) * 360 / 255;
-				// Update the current selected color
-				mCurrentColor = getCurrentHueColor();
 				
 				// Force the redraw of the dialog
 				invalidate();
