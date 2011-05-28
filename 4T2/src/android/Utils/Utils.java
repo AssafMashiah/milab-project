@@ -40,7 +40,7 @@ public class Utils {
 				
 				for (int j = heightDiv; j < heightDiv*2; j++)
 				{
-					if(grayImage[i][j] >= 120){
+					if(grayImage[i][j] >= 100){
 						brightPixels[ledNumber]++;
 					}
 					
@@ -56,11 +56,11 @@ public class Utils {
 		for (int i = 0; i < finalArray.length; i++)
 		{
 			System.out.println("led " + i + " number of bright " + brightPixels[i]);
-			if (brightPixels[i] < 200)	
+			if (brightPixels[i] < 10)	
 			{
 				finalArray[i] = 0;	
 			}
-			if (brightPixels[i] > 200)
+			if (brightPixels[i] > 10)
 			{
 				finalArray[i] = 1;
 			}

@@ -59,7 +59,8 @@ public class AfterScanActivity extends Activity
 				resourceId = R.drawable.shachar;
 				break;
 			default:
-				m_Bitmap = BitmapFactory.decodeFile(PictureCaptureActivity.FILE_DIR + PictureCaptureActivity.PHOTO_NUMBER + ".jpg");
+				resourceId = R.drawable.logo;
+//				m_Bitmap = BitmapFactory.decodeFile(PictureCaptureActivity.FILE_DIR + PictureCaptureActivity.PHOTO_NUMBER + ".jpg");
 				break;
 		}
 		

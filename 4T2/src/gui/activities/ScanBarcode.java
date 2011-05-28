@@ -1,22 +1,16 @@
 package gui.activities;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 import capture.image.R;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
 import android.util.Log;
 import android.view.MenuItem;
@@ -84,26 +78,6 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 	protected void btnTakePicture_click()
 	{
 		debug_SavePicture = true;
-		// ImageCaptureCallback iccb = null;
-		// try
-		// {
-		// String filename = timeStampFormat.format(new Date());
-		// ContentValues values = new ContentValues();
-		// values.put(Media.TITLE, filename);
-		// values.put(Media.DESCRIPTION, "Image capture by camera");
-		// Uri uri = getContentResolver().insert(
-		// Media.EXTERNAL_CONTENT_URI, values);
-		// // String filename = timeStampFormat.format(new Date());
-		// iccb = new ImageCaptureCallback(getContentResolver()
-		// .openOutputStream(uri));
-		// } catch (Exception ex)
-		// {
-		// ex.printStackTrace();
-		// Log.e(getClass().getSimpleName(), ex.getMessage(), ex);
-		// }
-		//
-		// camera.takePicture(mShutterCallback, mPictureCallbackRaw, iccb);
-
 	}
 
 	public boolean onCreateOptionsMenu(android.view.Menu menu)
@@ -392,8 +366,12 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		}
 
 		// Get the number from the picture
+		System.out.println("start of image pro");
 		calculated_number = android.Utils.Utils.scanToNumber(image);
+		System.out.println("end of image pro");
+		System.out.println(calculated_number);
 		Toast.makeText(this, calculated_number, Toast.LENGTH_LONG).show();
+		
 		int[] resImage = new int[CROP_WIDTH * CROP_HEIGHT];
 
 		for (int i = 0; i < image.length; i++)
