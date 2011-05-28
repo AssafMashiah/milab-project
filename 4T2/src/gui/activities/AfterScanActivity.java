@@ -17,10 +17,10 @@ public class AfterScanActivity extends Activity
 	public static final String BUNDLE_EXTRA_BITMAP = "Bitmap";
 
 	private static final int ASSAF_PHOTO_ID = 51;
-	private static final int KEREN_PHOTO_ID = 2;
-	private static final int ORR_PHOTO_ID = 3;
-	private static final int RONI_PHOTO_ID = 4;
-	private static final int SHACHR_PHOTO_ID = 5;
+	private static final int KEREN_PHOTO_ID = 30;
+	private static final int ORR_PHOTO_ID = 37;
+	private static final int RONI_PHOTO_ID = 43;
+	private static final int SHACHR_PHOTO_ID = 58;
 	
 	private Bitmap m_Bitmap;
 	private int imgProcFileName = -1;
@@ -39,7 +39,7 @@ public class AfterScanActivity extends Activity
 		
 //		PictureCaptureActivity.getHashtable().put(PictureCaptureActivity.PHOTO_NUMBER, imgProcFileName);
 		
-		int resourceId = R.drawable.logo;
+		int resourceId = R.drawable.notfound;
 		
 		switch (imgProcFileName)
 		{
@@ -59,7 +59,7 @@ public class AfterScanActivity extends Activity
 				resourceId = R.drawable.shachar;
 				break;
 			default:
-				resourceId = R.drawable.logo;
+				resourceId = R.drawable.notfound;
 				m_Bitmap = BitmapFactory.decodeFile(PictureCaptureActivity.FILE_DIR + PictureCaptureActivity.PHOTO_NUMBER + ".jpg");
 				break;
 		}
