@@ -392,8 +392,8 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		}
 
 		// Get the number from the picture
-		calculated_number = scanToNumber(image);
-
+		calculated_number = android.Utils.Utils.scanToNumber(image);
+		Toast.makeText(this, calculated_number, Toast.LENGTH_LONG).show();
 		int[] resImage = new int[CROP_WIDTH * CROP_HEIGHT];
 
 		for (int i = 0; i < image.length; i++)
@@ -407,79 +407,5 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		return resImage;
 	}
 
-	private int scanToNumber(int[][] image)
-	{
-		float areaWidth = image.length / 8;
-
-		double[][] grayImage = new double[image.length][image[0].length];
-		// gray scale
-		for (int i = 0; i < grayImage.length; i++)
-		{
-			for (int j = 0; j < grayImage[0].length; j++)
-			{
-				try
-				{
-					
-					int x = image[i][j];
-					int red = Color.red(x);
-					int green = Color.green(x);
-					int blue = Color.blue(x);
-
-					grayImage[i][j] = (red + green + blue) / 3;
-				}
-				catch (Exception e)
-				{
-					Toast.makeText(this, "i=" + i + "j=" + j, Toast.LENGTH_LONG).show();
-				}		
-			}
-		}
-
-		// Resulted numbers
-		double[] finalArray = new double[8];
-		int sizeDiv3 = grayImage[0].length / 3;
-
-		int blocker = sizeDiv3;
-		for (int ledNumber = 0; ledNumber < 8; ledNumber++)
-		{
-			int counter = 0;
-			for (int i = (int) (ledNumber * areaWidth); i < ledNumber
-					* areaWidth + areaWidth; i++)
-			{
-				for (int j = sizeDiv3; j < blocker * 2; j++)
-				{
-					finalArray[ledNumber] += grayImage[i][j];
-					counter++;
-				}
-			}
-			finalArray[ledNumber] = finalArray[ledNumber] / counter;
-		}
-
-		int result = 0;
-
-		for (int i = 0; i < finalArray.length; i++)
-		{
-			System.out.println("led avarage" + finalArray[i]);
-			if (finalArray[i] > 0 && finalArray[i] <= 1)
-			{
-				finalArray[i] = 0;	
-			}
-
-			if (finalArray[i] > 1 && finalArray[i] <= 30)
-			{
-				finalArray[i] = 1;
-			}
-
-			if (finalArray[i] > 30)
-			{
-				finalArray[i] = 2;
-			}
-			result += finalArray[i] * Math.pow(3, i);
-		}
-		
-
-		System.out.println("The image result: " + result);
-		Log.d("ANDRO_CAMERA", "The image resault: " + result);
-		Toast.makeText(this, "The image resault: " + result, Toast.LENGTH_LONG).show();
-		return result;
-	}
+	
 }
