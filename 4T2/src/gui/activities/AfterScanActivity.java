@@ -60,7 +60,7 @@ public class AfterScanActivity extends Activity
 				break;
 			default:
 				resourceId = R.drawable.logo;
-//				m_Bitmap = BitmapFactory.decodeFile(PictureCaptureActivity.FILE_DIR + PictureCaptureActivity.PHOTO_NUMBER + ".jpg");
+				m_Bitmap = BitmapFactory.decodeFile(PictureCaptureActivity.FILE_DIR + PictureCaptureActivity.PHOTO_NUMBER + ".jpg");
 				break;
 		}
 		
