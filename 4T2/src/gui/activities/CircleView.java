@@ -1,13 +1,10 @@
 package gui.activities;
 
-import capture.image.R;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
-import android.widget.ImageView;
 
 public class CircleView extends View
 {
@@ -20,9 +17,6 @@ public class CircleView extends View
 	public CircleView(Context c)
 	{
 		super(c);
-
-		ImageView cameraLayerImg = (ImageView) ((Activity)c).findViewById(R.id.cameraLayer);
-//		cameraLayerImg.layout(l, t, r, b)
 	
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setTextAlign(Paint.Align.CENTER);
