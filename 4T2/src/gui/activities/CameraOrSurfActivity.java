@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 public class CameraOrSurfActivity extends Activity  {
 	//*************Picture Camera members*********************
 	public static final int UPLOAD_SEEN_CODE_REQUEST = 5;
-	private static final int AFTER_SCAN_REQUEST = 20;
 	private static final int PICTURE_TAKEN_REQUEST = 10;
 	private static final String FILE_NAME = "img.jpg";
 	private static final String FILE_DIR = "/MediaLab/";

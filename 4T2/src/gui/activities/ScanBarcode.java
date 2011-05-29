@@ -25,8 +25,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class ScanBarcode extends Activity implements SurfaceHolder.Callback
-{
+public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 	private static final int CROP_X = 180;
 	private static final int CROP_Y = 200;
 	private static final int CROP_WIDTH = 380;
@@ -41,8 +40,7 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 	private SurfaceHolder surfaceHolder;
 	private Uri target = Media.EXTERNAL_CONTENT_URI;
 
-	public void onCreate(Bundle icicle)
-	{
+	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		Log.e(getClass().getSimpleName(), "onCreate");
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
@@ -52,39 +50,33 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.camera);
-		
+
 		surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
 		surfaceHolder = surfaceView.getHolder();
 
 		LinearLayout circlesView = (LinearLayout) findViewById(R.id.circleView);
 		circlesView.addView(new CircleView(this));
-		
+
 		surfaceHolder.addCallback(this);
 		surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
 		ImageButton btnTakePicture = (ImageButton) findViewById(R.id.btnTakePicture);
-		btnTakePicture.setOnClickListener(new OnClickListener()
-		{
+		btnTakePicture.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				btnTakePicture_click();
 			}
 		});
 	}
 
-	protected void btnTakePicture_click()
-	{
+	protected void btnTakePicture_click() {
 		debug_SavePicture = true;
 	}
 
-	public boolean onCreateOptionsMenu(android.view.Menu menu)
-	{
+	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		MenuItem item = menu.add(0, 0, 0, "goto gallery");
-		item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
-		{
-			public boolean onMenuItemClick(MenuItem item)
-			{
+		item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
 				Intent intent = new Intent(Intent.ACTION_VIEW, target);
 				startActivity(intent);
 				return true;
@@ -94,148 +86,121 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 	}
 
 	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState)
-	{
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
-	Camera.PictureCallback mPictureCallbackRaw = new Camera.PictureCallback()
-	{
-		public void onPictureTaken(byte[] data, Camera c)
-		{
+	Camera.PictureCallback mPictureCallbackRaw = new Camera.PictureCallback() {
+		public void onPictureTaken(byte[] data, Camera c) {
 			Log.e(getClass().getSimpleName(), "PICTURE CALLBACK RAW: " + data);
 			camera.startPreview();
 		}
 	};
 
-	Camera.PictureCallback mPictureCallbackJpeg = new Camera.PictureCallback()
-	{
-		public void onPictureTaken(byte[] data, Camera c)
-		{
+	Camera.PictureCallback mPictureCallbackJpeg = new Camera.PictureCallback() {
+		public void onPictureTaken(byte[] data, Camera c) {
 			Log.e(getClass().getSimpleName(),
 					"PICTURE CALLBACK JPEG: data.length = " + data);
 		}
 	};
 
-	Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback()
-	{
-		public void onShutter()
-		{
+	Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
+		public void onShutter() {
 			Log.e(getClass().getSimpleName(), "SHUTTER CALLBACK");
 		}
 	};
 
 	boolean debug_SavePicture = false;
-	Camera.PreviewCallback previewCallback = new Camera.PreviewCallback()
-	{
-		public void onPreviewFrame(byte[] data, Camera camera)
-		{
-			try
-			{
-				if (debug_SavePicture)
-				{
+	Camera.PreviewCallback previewCallback = new Camera.PreviewCallback() {
+		public void onPreviewFrame(byte[] data, Camera camera) {
+			try {
+				if (debug_SavePicture) {
 					camera.setPreviewCallback(null);
 
 					Size previewSize = camera.getParameters().getPreviewSize();
 					int[] rgb = new int[previewSize.width * previewSize.height];
-					decodeYUV420SP(rgb, data, previewSize.width, previewSize.height);
+					decodeYUV420SP(rgb, data, previewSize.width,
+							previewSize.height);
 
-					int[] croppedImage = cropRgbImage(rgb, previewSize.width, previewSize.height);
+					int[] croppedImage = cropRgbImage(rgb, previewSize.width,
+							previewSize.height);
 
-//					Bitmap bitmap = Bitmap.createBitmap(croppedImage, CROP_WIDTH, CROP_HEIGHT, Config.RGB_565);
-					
+					// Bitmap bitmap = Bitmap.createBitmap(croppedImage,
+					// CROP_WIDTH, CROP_HEIGHT, Config.RGB_565);
+
 					int photoNum;
-					
-					switch (calculated_number)
-					{
-						case 1:
-							photoNum = 1;
-							break;
-						case 2:
-							photoNum = 2;
-							break;
-						case 3:
-							photoNum = 3;
-							break;
-						case 4:
-							photoNum = 4;
-							break;
-						case 5:
-							photoNum = 5;
-							break;
-						default:
-							photoNum = calculated_number;
-							break;
+
+					switch (calculated_number) {
+					case 1:
+						photoNum = 1;
+						break;
+					case 2:
+						photoNum = 2;
+						break;
+					case 3:
+						photoNum = 3;
+						break;
+					case 4:
+						photoNum = 4;
+						break;
+					case 5:
+						photoNum = 5;
+						break;
+					default:
+						photoNum = calculated_number;
+						break;
 					}
-					
-					 getIntent().putExtra(CALCULATED_NUMBER, photoNum);
+
+					getIntent().putExtra(CALCULATED_NUMBER, photoNum);
 
 					debug_SavePicture = false;
 
 					setResult(RESULT_OK, getIntent());
 					finish();
 				}
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				Log.e(getClass().getSimpleName(),
 						"Exception : " + e.getMessage());
 			}
 		}
 	};
 
-	public void surfaceCreated(SurfaceHolder holder)
-	{
+	public void surfaceCreated(SurfaceHolder holder) {
 		Log.e(getClass().getSimpleName(), "surfaceCreated");
 		camera = Camera.open();
 
 		int rotation = this.getWindowManager().getDefaultDisplay()
 				.getRotation();
 		int degrees = 0;
-		switch (rotation)
-		{
-			case Surface.ROTATION_0:
-				degrees = 90;
-				break;
-			case Surface.ROTATION_90:
-				degrees = 0;
-				break;
-			case Surface.ROTATION_180:
-				degrees = 270;
-				break;
-			case Surface.ROTATION_270:
-				degrees = 180;
-				break;
+		switch (rotation) {
+		case Surface.ROTATION_0:
+			degrees = 90;
+			break;
+		case Surface.ROTATION_90:
+			degrees = 0;
+			break;
+		case Surface.ROTATION_180:
+			degrees = 270;
+			break;
+		case Surface.ROTATION_270:
+			degrees = 180;
+			break;
 		}
 
 		camera.setDisplayOrientation(degrees);
 
-		// if (this.getResources().getConfiguration().orientation !=
-		// Configuration.ORIENTATION_LANDSCAPE)
-		// {
-		// camera.setDisplayOrientation(90);
-		// }
-		// else
-		// {
-		// camera.setDisplayOrientation(0);
-		// }
-
 		Camera.Parameters p = camera.getParameters();
 		p.set("jpeg-quality", 100);
-		// p.set("orientation", "landscape");
-		// p.set("rotation", 90);
 		p.setPictureFormat(PixelFormat.JPEG);
 		camera.setParameters(p);
 
 		camera.setPreviewCallback(previewCallback);
 	}
 
-	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h)
-	{
+	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 		Log.e(getClass().getSimpleName(), "surfaceChanged");
-		if (isPreviewRunning)
-		{
+		if (isPreviewRunning) {
 			camera.stopPreview();
-			// isPreviewRunning = false;
 		}
 		Camera.Parameters p = camera.getParameters();
 
@@ -243,30 +208,25 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		Size optimalSize = getOptimalPreviewSize(sizes, w, h);
 		p.setPreviewSize(optimalSize.width, optimalSize.height);
 		p.setExposureCompensation(p.getMinExposureCompensation());
-		// p.setPreviewSize(w, h);
 
 		camera.setParameters(p);
-		try
-		{
+		try {
 			camera.setPreviewDisplay(holder);
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		camera.startPreview();
 	}
 
-	public void surfaceDestroyed(SurfaceHolder holder)
-	{
+	public void surfaceDestroyed(SurfaceHolder holder) {
 		Log.e(getClass().getSimpleName(), "surfaceDestroyed");
 		camera.stopPreview();
 		isPreviewRunning = false;
 		camera.release();
 	}
 
-	private Size getOptimalPreviewSize(List<Size> sizes, int w, int h)
-	{
+	private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
 		final double ASPECT_TOLERANCE = 0.2;
 		double targetRatio = (double) w / h;
 		if (sizes == null)
@@ -278,13 +238,11 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		int targetHeight = h;
 
 		// Try to find an size match aspect ratio and size
-		for (Size size : sizes)
-		{
+		for (Size size : sizes) {
 			double ratio = (double) size.width / size.height;
 			if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE)
 				continue;
-			if (Math.abs(size.height - targetHeight) < minDiff)
-			{
+			if (Math.abs(size.height - targetHeight) < minDiff) {
 				optimalSize = size;
 				minDiff = Math.abs(size.height - targetHeight);
 			}
@@ -292,13 +250,10 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 
 		// Cannot find the one match the aspect ratio, ignore the
 		// requirement
-		if (optimalSize == null)
-		{
+		if (optimalSize == null) {
 			minDiff = Double.MAX_VALUE;
-			for (Size size : sizes)
-			{
-				if (Math.abs(size.height - targetHeight) < minDiff)
-				{
+			for (Size size : sizes) {
+				if (Math.abs(size.height - targetHeight) < minDiff) {
 					optimalSize = size;
 					minDiff = Math.abs(size.height - targetHeight);
 				}
@@ -308,20 +263,16 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 	}
 
 	static public void decodeYUV420SP(int[] rgb, byte[] yuv420sp, int width,
-			int height)
-	{
+			int height) {
 		final int frameSize = width * height;
 
-		for (int j = 0, yp = 0; j < height; j++)
-		{
+		for (int j = 0, yp = 0; j < height; j++) {
 			int uvp = frameSize + (j >> 1) * width, u = 0, v = 0;
-			for (int i = 0; i < width; i++, yp++)
-			{
+			for (int i = 0; i < width; i++, yp++) {
 				int y = (0xff & ((int) yuv420sp[yp])) - 16;
 				if (y < 0)
 					y = 0;
-				if ((i & 1) == 0)
-				{
+				if ((i & 1) == 0) {
 					v = (0xff & yuv420sp[uvp++]) - 128;
 					u = (0xff & yuv420sp[uvp++]) - 128;
 				}
@@ -350,39 +301,29 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback
 		}
 	}
 
-	private int[] cropRgbImage(int[] rgb, int originalWidth, int originalHeight)
-	{
+	private int[] cropRgbImage(int[] rgb, int originalWidth, int originalHeight) {
 		int[][] image = new int[CROP_WIDTH][CROP_HEIGHT];
 
-		for (int col = CROP_X; col < CROP_X + CROP_WIDTH; col++)
-		{
-			for (int row = CROP_Y; row < CROP_Y + CROP_HEIGHT; row++)
-			{
+		for (int col = CROP_X; col < CROP_X + CROP_WIDTH; col++) {
+			for (int row = CROP_Y; row < CROP_Y + CROP_HEIGHT; row++) {
 				image[col - CROP_X][row - CROP_Y] = rgb[(row * originalWidth)
 						+ col];
 			}
 		}
 
 		// Get the number from the picture
-		System.out.println("start of image pro");
 		calculated_number = android.Utils.Utils.scanToNumber(image);
-		System.out.println("end of image pro");
-		System.out.println(calculated_number);
-		
+
 		int[] resImage = new int[CROP_WIDTH * CROP_HEIGHT];
 
-		for (int i = 0; i < image.length; i++)
-		{
-			for (int j = 0; j < image[0].length; j++)
-			{
+		for (int i = 0; i < image.length; i++) {
+			for (int j = 0; j < image[0].length; j++) {
 				resImage[j * CROP_WIDTH + i] = image[i][j];
 			}
 		}
 		Toast.makeText(this, calculated_number + "", Toast.LENGTH_LONG).show();
 
-		
 		return resImage;
 	}
 
-	
 }

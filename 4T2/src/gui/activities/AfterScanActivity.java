@@ -37,9 +37,7 @@ public class AfterScanActivity extends Activity
 		
 		imgProcFileName = getIntent().getExtras().getInt(ScanBarcode.CALCULATED_NUMBER);
 		
-//		PictureCaptureActivity.getHashtable().put(PictureCaptureActivity.PHOTO_NUMBER, imgProcFileName);
-		
-		int resourceId = R.drawable.notfound;
+		int resourceId = R.drawable.not_found;
 		
 		switch (imgProcFileName)
 		{
@@ -59,7 +57,7 @@ public class AfterScanActivity extends Activity
 				resourceId = R.drawable.shachar;
 				break;
 			default:
-				resourceId = R.drawable.notfound;
+				resourceId = R.drawable.not_found;
 				m_Bitmap = BitmapFactory.decodeFile(PictureCaptureActivity.FILE_DIR + PictureCaptureActivity.PHOTO_NUMBER + ".jpg");
 				break;
 		}
