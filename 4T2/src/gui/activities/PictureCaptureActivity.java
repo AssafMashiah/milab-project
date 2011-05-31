@@ -1,7 +1,6 @@
 package gui.activities;
 
 import java.io.File;
-import java.util.Hashtable;
 import java.util.Random;
 
 import android.app.Activity;
@@ -16,7 +15,6 @@ import android.widget.ImageView;
 
 public class PictureCaptureActivity extends Activity
 {
-	private static Hashtable<Integer, Integer> ImagesAndBarcodes = new Hashtable<Integer, Integer>();
 	public static final String FILE_LAST_DIR = "/MediaLab/";
 	public static String FILE_DIR = "";
 	public static String FILE_NAME = "";
@@ -77,10 +75,5 @@ public class PictureCaptureActivity extends Activity
 				finish();
 			}
 		}
-	}
-	
-	public static Hashtable<Integer, Integer> getHashtable()
-	{
-		return ImagesAndBarcodes;
 	}
 }
