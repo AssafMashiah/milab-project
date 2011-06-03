@@ -4,6 +4,7 @@ import capture.image.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -25,7 +26,7 @@ public class CameraOrSurfActivity extends Activity  {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.take_pic_or_surf);
-
+		
 		// On "create code" click ( "pic to code" button)
 		ImageButton btnTakeAPic = (ImageButton) findViewById(R.id.btntakepicture);
 		btnTakeAPic.setOnClickListener(new View.OnClickListener()
