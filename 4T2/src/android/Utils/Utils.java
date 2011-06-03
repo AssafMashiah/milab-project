@@ -1,5 +1,8 @@
 package android.Utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 import android.graphics.Color;
 
 public class Utils {
@@ -67,4 +70,20 @@ public class Utils {
 		
 		return result;
 	}
+	
+	 public static String read( InputStream stream ) {
+			try {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream( 8196 );
+				byte[] buffer = new byte[1024];
+				int length = 0;
+				while ( ( length = stream.read( buffer ) ) > 0 ) {
+					baos.write( buffer, 0, length );
+				}
+				
+				return baos.toString();
+			}
+			catch ( Exception exception ) {
+				return exception.getMessage();
+			}
+		}
 }
