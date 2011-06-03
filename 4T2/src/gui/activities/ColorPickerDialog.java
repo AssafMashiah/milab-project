@@ -1,7 +1,5 @@
 package gui.activities;
 
-import com.amazon.aws.demo.s3.S3;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -23,7 +21,7 @@ public class ColorPickerDialog extends Dialog {
 	public ColorPickerDialog(Context context, OnColorChangedListener listener,
 			String key, int initialColor, int defaultColor) {
 		super(context);
-
+		
 		mListener = listener;
 		mKey = key;
 		mInitialColor = initialColor;
@@ -48,12 +46,7 @@ public class ColorPickerDialog extends Dialog {
 		ColorPickerView(Context c, OnColorChangedListener l, int color,
 				int defaultColor) {
 			super(c);
-			System.out.println("uploading file");
-			S3.createObjectForBucket("milab-bucket",
-					PictureCaptureActivity.PHOTO_NUMBER + ".jpg",
-					"/mnt/sdcard/MediaLab/"
-							+ PictureCaptureActivity.PHOTO_NUMBER + ".jpg");
-			System.out.println("done");
+			
 			// Get the current hue from the current color and update the main
 			// color field
 			float[] hsv = new float[3];
@@ -137,9 +130,8 @@ public class ColorPickerDialog extends Dialog {
 
 			// this array is the saturation of each led according to the number
 			// it is given
-			float[] ledBright = android.Utils.colorCalculation
-					.setLedBrightness(android.Utils.colorCalculation
-							.getBrightness(5012));
+			int[] ledBright = android.Utils.colorCalculation
+					.getBrightness(MainActivity.getNumber());
 
 			// drawing the leds on the
 			for (int j = 0; j < 6; j++) {
@@ -150,8 +142,13 @@ public class ColorPickerDialog extends Dialog {
 
 				Color.RGBToHSV(Color.red(rgb), Color.green(rgb),
 						Color.blue(rgb), hsv);
+				
+				if (ledBright[j] == 0) {
+					hsv[1] = 0.1f;
+				} else {
+					hsv[1] = ledBright[j];
+				}
 
-				hsv[1] = ledBright[j];
 				hsv[2] = 1;
 				int color = Color.HSVToColor(hsv);
 				mPaint.setColor(color);
@@ -179,6 +176,9 @@ public class ColorPickerDialog extends Dialog {
 				// Force the redraw of the dialog
 				invalidate();
 			}
+
+			System.out.println(mCurrentHue);
+			MainActivity.setHue((int) mCurrentHue);
 			return true;
 		}
 	}
