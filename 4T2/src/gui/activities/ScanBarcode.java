@@ -31,7 +31,7 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 	private static final int CROP_WIDTH = 380;
 	private static final int CROP_HEIGHT = 50;
 	public static String CALCULATED_NUMBER = "ImgProcessing";
-	private int calculated_number;
+	public int calculated_number;
 
 	private Camera camera;
 	private boolean isPreviewRunning = false;
@@ -125,6 +125,10 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 					int[] croppedImage = cropRgbImage(rgb, previewSize.width,
 							previewSize.height);
 
+						        Intent browseIntent = new Intent(Intent.ACTION_VIEW);						        
+						        String url = "https://s3.amazonaws.com/milab-bucket/56.jpg";
+						        browseIntent.setData(Uri.parse(url));
+						        startActivity(browseIntent);
 					// Bitmap bitmap = Bitmap.createBitmap(croppedImage,
 					// CROP_WIDTH, CROP_HEIGHT, Config.RGB_565);
 
@@ -321,7 +325,9 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 				resImage[j * CROP_WIDTH + i] = image[i][j];
 			}
 		}
-		Toast.makeText(this, calculated_number + "", Toast.LENGTH_LONG).show();
+		
+		
+//		Toast.makeText(this, calculated_number + "", Toast.LENGTH_LONG).show();
 
 		return resImage;
 	}
