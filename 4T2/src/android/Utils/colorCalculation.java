@@ -4,34 +4,14 @@ import android.graphics.Color;
 
 public class colorCalculation {
 	public static int[] getBrightness(int number) {
-		int[] brightness = new int[8];
-		for (int i = 0; i < 8; i++) {
-			brightness[i] = number % 3;
-			number = number / 3;
+		int[] brightness = new int[6];
+		for (int i = 5; i >= 0; i--) {
+			brightness[i] = number % 2;
+			number = number / 2;
 		}
 
 		return brightness;
 	}
-
-	public static float[] setLedBrightness(int[] number) {
-		float[] ledbrightness = new float[8];
-		for (int i = 0; i < 8; i++) {
-			switch (number[i]) {
-			case 0:
-				ledbrightness[i] = 0;
-				break;
-			case 1:
-				ledbrightness[i] = 0.1f;
-				break;
-			case 2:
-				ledbrightness[i] = 1f;
-				break;
-			}
-
-		}
-		return ledbrightness;
-	}
-
 
 	  public static String getHexName (int color)
 	  {
