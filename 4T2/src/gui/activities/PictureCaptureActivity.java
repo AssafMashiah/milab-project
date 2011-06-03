@@ -1,6 +1,11 @@
 package gui.activities;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Hashtable;
 import java.util.Random;
 
 import android.app.Activity;
@@ -13,8 +18,11 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.amazon.aws.demo.s3.S3;
+
 public class PictureCaptureActivity extends Activity
 {
+	private static Hashtable<Integer, Integer> ImagesAndBarcodes = new Hashtable<Integer, Integer>();
 	public static final String FILE_LAST_DIR = "/MediaLab/";
 	public static String FILE_DIR = "";
 	public static String FILE_NAME = "";
@@ -63,7 +71,13 @@ public class PictureCaptureActivity extends Activity
 		intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 		
 		startActivityForResult(intent, IMAGE_CAPTURE);
+		
+		
+		
+		
+		
 	}
+	
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -73,7 +87,15 @@ public class PictureCaptureActivity extends Activity
 			{
 				setResult(RESULT_OK, data);
 				finish();
+				
 			}
 		}
+	}
+
+	  
+	
+	public static Hashtable<Integer, Integer> getHashtable()
+	{
+		return ImagesAndBarcodes;
 	}
 }
