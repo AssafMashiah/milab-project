@@ -1,6 +1,5 @@
 package gui.activities;
 
-import capture.image.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +10,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import arduino.bluetooth.Comm;
+import at.abraxas.amarino.Amarino;
+import capture.image.R;
 
 public class AfterScanActivity extends Activity
 {
@@ -75,6 +77,7 @@ public class AfterScanActivity extends Activity
 			{
 				Intent intent = new Intent(AfterScanActivity.this, SelectColorAndUploadActivity.class);
 				startActivityForResult(intent, MainActivity.UPLOAD_SEEN_CODE_REQUEST);
+				
 			}
 		});
 		
