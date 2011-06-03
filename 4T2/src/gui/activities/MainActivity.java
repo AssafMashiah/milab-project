@@ -3,10 +3,13 @@ package gui.activities;
 import capture.image.R;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ImageButton;
+import at.abraxas.amarino.Amarino;
 
 public class MainActivity extends Activity
 {
@@ -14,6 +17,11 @@ public class MainActivity extends Activity
 	public static final int UPLOAD_SEEN_CODE_REQUEST = 5;
 	private static final int AFTER_SCAN_REQUEST = 20;
 	private static final int PICTURE_TAKEN_REQUEST = 10;
+	private static final String BLUETOOTH = "00:06:66:06:BE:89";
+    public static final String PREFS = "multicolorlamp";
+    public static final String PREF_DEVICE_ADDRESS = "device_address";
+	String deviceAddress;
+    SharedPreferences prefs;
     
 	/**
 	 * TODO: change the address to the address of your Bluetooth module and
@@ -24,6 +32,9 @@ public class MainActivity extends Activity
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        deviceAddress = prefs.getString(PREF_DEVICE_ADDRESS, BLUETOOTH);
+
 
 		// On "create code" click ( "pic to code" button)
 		ImageButton btnCreateCode = (ImageButton) findViewById(R.id.btnPicToCode);
@@ -46,7 +57,20 @@ public class MainActivity extends Activity
 		});
 		
 	}
+	@Override
+	protected void onStart() {
+        super.onStart();
+        Amarino.connect(this, deviceAddress);
+	Amarino.sendDataToArduino(this,deviceAddress,'g',35350);
+	}
 	
+	@Override
+	protected void onStop() {
+
+	Amarino.disconnect(this, BLUETOOTH);
+	super.onStop();
+	}
+
 	// On "create code" click ( "pic to code" button)
 	protected void btnCreateCodeClick()
 	{
