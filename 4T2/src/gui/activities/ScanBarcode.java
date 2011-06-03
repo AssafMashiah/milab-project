@@ -23,7 +23,6 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 	private static final int CROP_X = 180;
@@ -42,15 +41,12 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
-		Log.e(getClass().getSimpleName(), "onCreate");
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
-
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.camera);
-
 		surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
 		surfaceHolder = surfaceView.getHolder();
 
@@ -85,28 +81,9 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 		return true;
 	}
 
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-	}
-
 	Camera.PictureCallback mPictureCallbackRaw = new Camera.PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera c) {
-			Log.e(getClass().getSimpleName(), "PICTURE CALLBACK RAW: " + data);
 			camera.startPreview();
-		}
-	};
-
-	Camera.PictureCallback mPictureCallbackJpeg = new Camera.PictureCallback() {
-		public void onPictureTaken(byte[] data, Camera c) {
-			Log.e(getClass().getSimpleName(),
-					"PICTURE CALLBACK JPEG: data.length = " + data);
-		}
-	};
-
-	Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
-		public void onShutter() {
-			Log.e(getClass().getSimpleName(), "SHUTTER CALLBACK");
 		}
 	};
 
@@ -122,40 +99,7 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 					decodeYUV420SP(rgb, data, previewSize.width,
 							previewSize.height);
 
-					int[] croppedImage = cropRgbImage(rgb, previewSize.width,
-							previewSize.height);
-
-						        Intent browseIntent = new Intent(Intent.ACTION_VIEW);						        
-						        String url = "https://s3.amazonaws.com/milab-bucket/56.jpg";
-						        browseIntent.setData(Uri.parse(url));
-						        startActivity(browseIntent);
-					// Bitmap bitmap = Bitmap.createBitmap(croppedImage,
-					// CROP_WIDTH, CROP_HEIGHT, Config.RGB_565);
-
-					int photoNum;
-
-					switch (calculated_number) {
-					case 1:
-						photoNum = 1;
-						break;
-					case 2:
-						photoNum = 2;
-						break;
-					case 3:
-						photoNum = 3;
-						break;
-					case 4:
-						photoNum = 4;
-						break;
-					case 5:
-						photoNum = 5;
-						break;
-					default:
-						photoNum = calculated_number;
-						break;
-					}
-
-					getIntent().putExtra(CALCULATED_NUMBER, photoNum);
+					cropRgbImage(rgb, previewSize.width, previewSize.height);
 
 					debug_SavePicture = false;
 
@@ -163,14 +107,11 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 					finish();
 				}
 			} catch (Exception e) {
-				Log.e(getClass().getSimpleName(),
-						"Exception : " + e.getMessage());
 			}
 		}
 	};
 
 	public void surfaceCreated(SurfaceHolder holder) {
-		Log.e(getClass().getSimpleName(), "surfaceCreated");
 		camera = Camera.open();
 
 		int rotation = this.getWindowManager().getDefaultDisplay()
@@ -224,7 +165,6 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		Log.e(getClass().getSimpleName(), "surfaceDestroyed");
 		camera.stopPreview();
 		isPreviewRunning = false;
 		camera.release();
@@ -317,6 +257,14 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 
 		// Get the number from the picture
 		calculated_number = android.Utils.Utils.scanToNumber(image);
+		MainActivity.setNumber(calculated_number);
+
+		// Opens pic in browser
+		Intent browseIntent = new Intent(Intent.ACTION_VIEW);
+		String strUrl = "https://s3.amazonaws.com/milab-bucket/";
+
+		browseIntent.setData(Uri.parse(strUrl + calculated_number + ".jpg"));
+		startActivity(browseIntent);
 
 		int[] resImage = new int[CROP_WIDTH * CROP_HEIGHT];
 
@@ -325,11 +273,7 @@ public class ScanBarcode extends Activity implements SurfaceHolder.Callback {
 				resImage[j * CROP_WIDTH + i] = image[i][j];
 			}
 		}
-		
-		
-//		Toast.makeText(this, calculated_number + "", Toast.LENGTH_LONG).show();
 
 		return resImage;
 	}
-
 }

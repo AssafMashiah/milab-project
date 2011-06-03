@@ -1,5 +1,7 @@
 package gui.activities;
 
+import com.amazon.aws.demo.s3.S3;
+
 import capture.image.R;
 import gui.activities.ColorPickerDialog.ColorPickerView;
 import gui.activities.ColorPickerDialog.OnColorChangedListener;
@@ -11,18 +13,26 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import at.abraxas.amarino.Amarino;
 
 public class SelectColorAndUploadActivity extends Activity implements ColorPickerDialog.OnColorChangedListener
 {
-	private static final String BRIGHTNESS_PREFERENCE_KEY = "brightness";
 	private static final String COLOR_PREFERENCE_KEY = "color";
+	Activity colorAndUlpload;
 	TextView tv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.onCreate(savedInstanceState);
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		colorAndUlpload = this;
+		
+		// send to server
+		S3.createObjectForBucket("milab-bucket",
+				PictureCaptureActivity.PHOTO_NUMBER + ".jpg",
+				"/mnt/sdcard/MediaLab/"
+						+ PictureCaptureActivity.PHOTO_NUMBER + ".jpg");
 		
 		OnColorChangedListener l = new OnColorChangedListener()
 		{
@@ -53,8 +63,11 @@ public class SelectColorAndUploadActivity extends Activity implements ColorPicke
 		{
 			public void onClick(View v)
 			{
+				//connect to Bluetooth
+				Amarino.connect(colorAndUlpload, MainActivity.BLUETOOTH);
+
 				// add color - amerino code
-//				long dataToSend = PictureCaptureActivity.PHOTO_NUMBER;
+				Amarino.sendDataToArduino(colorAndUlpload, MainActivity.BLUETOOTH, 'a', MainActivity.getData());
 				setResult(RESULT_OK, null);
 				finish();
 			}
@@ -66,5 +79,4 @@ public class SelectColorAndUploadActivity extends Activity implements ColorPicke
 		PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(COLOR_PREFERENCE_KEY, color).commit();
 		tv.setTextColor(color);
 	}
-
 }
