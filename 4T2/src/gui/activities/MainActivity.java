@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import at.abraxas.amarino.Amarino;
 
 public class MainActivity extends Activity {
 	// *************Picture Camera members*********************
@@ -26,6 +27,9 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		//connect to Bluetooth
+		Amarino.connect(this, MainActivity.BLUETOOTH);
+		
 		// On "create a link button" click
 		ImageButton btnCreateCode = (ImageButton) findViewById(R.id.btnPicToCode);
 		btnCreateCode.setOnClickListener(new View.OnClickListener() {

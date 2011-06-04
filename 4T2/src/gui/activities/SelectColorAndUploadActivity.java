@@ -63,9 +63,6 @@ public class SelectColorAndUploadActivity extends Activity implements ColorPicke
 		{
 			public void onClick(View v)
 			{
-				//connect to Bluetooth
-				Amarino.connect(colorAndUlpload, MainActivity.BLUETOOTH);
-
 				// add color - amerino code
 				Amarino.sendDataToArduino(colorAndUlpload, MainActivity.BLUETOOTH, 'a', MainActivity.getData());
 				setResult(RESULT_OK, null);
