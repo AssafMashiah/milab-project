@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Amarino/AmarinoLibrary_v0_55.jar"/>
+	<classpathentry kind="lib" path="C:/school/semester-E/miLab/Open source T/AmarinoLibrary_v0_55.jar"/>
+	<classpathentry kind="lib" path="C:/eclipse/aws-android-sdk-0.2.1/lib/aws-android-sdk-0.2.1-debug.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
