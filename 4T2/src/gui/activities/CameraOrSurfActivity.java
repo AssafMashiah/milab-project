@@ -4,11 +4,9 @@ import capture.image.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import at.abraxas.amarino.Amarino;
 
 public class CameraOrSurfActivity extends Activity {
 	// *************Picture Camera members*********************

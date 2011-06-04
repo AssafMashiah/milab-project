@@ -14,30 +14,17 @@
  */
 package com.amazon.aws.demo.s3;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-
-import android.util.Log;
 
 import com.amazon.aws.demo.AWSDemo;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 public class S3 {
 
@@ -48,74 +35,27 @@ public class S3 {
 	
 	static {
 		System.setProperty("org.xml.sax.driver","org.xmlpull.v1.sax2.Driver");
-		try {
-			XMLReader reader = XMLReaderFactory.createXMLReader();
-		}
-		catch ( SAXException e ) {
-			Log.e( "SAXException", e.getMessage() );
-		}
 	}
 		
 	public static AmazonS3 getInstance() {
         if ( s3 == null ) {
 		    s3 = new AmazonS3Client( AWSDemo.credentials );
         }
-
         return s3;
 	}
 
-	public static List<String> getBucketNames() {
-		List buckets = getInstance().listBuckets();
-		
-		List<String> bucketNames = new ArrayList<String>( buckets.size() );
-		Iterator<Bucket> bIter = buckets.iterator();
-		while(bIter.hasNext()){
-			bucketNames.add((bIter.next().getName()));
-		}
-		return bucketNames;
-	}
 
-	public static List<String> getObjectNamesForBucket( String bucketName ) {
-		ObjectListing objects = getInstance().listObjects( bucketName );
-		objListing = objects;
-		List<String> objectNames = new ArrayList<String>( objects.getObjectSummaries().size() );
-		Iterator<S3ObjectSummary> oIter = objects.getObjectSummaries().iterator();
-		while(oIter.hasNext()){
-			objectNames.add(oIter.next().getKey());
-		}
-		return objectNames;		
-	}	
-	
-	public static List<String> getObjectNamesForBucket( String bucketName , int numItems) {
-		ListObjectsRequest req= new ListObjectsRequest();
-		req.setMaxKeys(new Integer(numItems));
-		req.setBucketName(bucketName);
-		ObjectListing objects = getInstance().listObjects( req );
-		objListing = objects;
-		List<String> objectNames = new ArrayList<String>( objects.getObjectSummaries().size());
-		Iterator<S3ObjectSummary> oIter = objects.getObjectSummaries().iterator();
-		while(oIter.hasNext()){
-			objectNames.add(oIter.next().getKey());
-		}
-
-		return objectNames;		
-	}	
-	
 	public static List<String> getMoreObjectNamesForBucket() {
 		try{
 			ObjectListing objects = getInstance().listNextBatchOfObjects(objListing);
 			objListing = objects;
 			List<String> objectNames = new ArrayList<String>( objects.getObjectSummaries().size());
-			Iterator<S3ObjectSummary> oIter = objects.getObjectSummaries().iterator();
-			while(oIter.hasNext()){
-				objectNames.add(oIter.next().getKey());
-			}
 			return objectNames;
 		} catch (NullPointerException e){
 			return new ArrayList<String>();
 		}
-
 	}	
+
 	public static void createBucket( String bucketName ) {
 		getInstance().createBucket( bucketName );
 	}		
@@ -128,16 +68,10 @@ public class S3 {
 		try {
 			ObjectMetadata metadata = new ObjectMetadata();
 			File myFile=new File(fileLocation);
-			//============== check if this segment needs to be deleted
-			FileInputStream in=new FileInputStream(myFile); 
 			metadata.setContentLength(myFile.length());
-			PutObjectRequest p=new PutObjectRequest(bucketName,objectName,in,metadata);
-			//==================================================================
 			getInstance().putObject(bucketName,objectName, myFile);
-			
 		}
 		catch ( Exception exception ) {
-			Log.e( "TODO", "createObjectForBucket" );
 		}
 	}
 	

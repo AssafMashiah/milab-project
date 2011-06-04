@@ -14,9 +14,6 @@
  */
 package com.amazon.aws.demo;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Properties;
 
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -24,35 +21,24 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class AWSDemo extends Activity {
-    
-	
 	public static BasicAWSCredentials credentials = null;
 	protected Button snsButton;
 	protected Button sqsButton;
 	protected Button s3Button;
 	protected Button sdbButton;
 	protected TextView welcomeText;
-	
-	private boolean credentials_found;
-	
-	
+
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         startGetCredentials();
-
     }
-      
     
     private void startGetCredentials() {
     	Thread t = new Thread() {
@@ -68,17 +54,12 @@ public class AWSDemo extends Activity {
     	            if ( ( accessKeyId == null ) || ( accessKeyId.equals( "" ) ) ||
     	            	 ( accessKeyId.equals( "CHANGEME" ) ) ||( secretKey == null )   || 
     	                 ( secretKey.equals( "" ) ) || ( secretKey.equals( "CHANGEME" ) ) ) {
-    	                Log.e( "AWS", "Aws Credentials not configured correctly." );                                    
-        	            credentials_found = false;
     	            } else {
     	            credentials = new BasicAWSCredentials( properties.getProperty( "accessKey" ), properties.getProperty( "secretKey" ) );
-        	        credentials_found = true;
     	            }
 
     	        }
     	        catch ( Exception exception ) {
-    	            Log.e( "Loading AWS Credentials", exception.getMessage() );
-    	            credentials_found = false;
     	        }
     		}
     	};
@@ -96,7 +77,4 @@ public class AWSDemo extends Activity {
         } );
         confirm.show().show();                
     }
-    
-
-
 }
