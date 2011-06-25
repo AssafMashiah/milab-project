@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
 	public static final int UPLOAD_SEEN_CODE_REQUEST = 5;
 	private static final int AFTER_SCAN_REQUEST = 20;
 	private static final int PICTURE_TAKEN_REQUEST = 10;
-	public static final String BLUETOOTH = "00:06:66:06:BE:36";
+	public static final String BLUETOOTH = "00:06:66:06:BE:74";
 	public static int HUE = 0;
 	public static int NUMBER = 0;
 
